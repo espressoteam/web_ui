@@ -1,19 +1,16 @@
 <template>
-<div class="mdl-card mdl-shadow--4dp" :style="{backgroundImage: 'url(' + route.imageUrl + ')'}" @click="click">
-  <div class="mdl-card__title mdl-card--expand">
-    <span class="media-text right">{{route.title}}</span>
-  </div>
-  <div class="mdl-card__actions top">
-    <span class="media-text">
-      {{ route.info }}
-    </span><br/>
-  </div>
-  <div class="mdl-card__actions bottom">
-    <span class="media-text small">
-      {{ route.duration }}, {{ route.copied }} people copied
-    </span>
-  </div>
-</div>
+<v-card :img="route.imageUrl" @click="click">
+  <v-card-row>
+    <v-card-text class="text-xs-right">
+      <span class="trans-text pl-1 pt-1 pb-1 pr-1"><strong>{{route.title}}</strong></span>
+    </v-card-text>
+  </v-card-row>
+  <v-card-row height="50px"></v-card-row>
+  <v-card-row class="white--text trans-text pl-2 pt-1 pb-1">
+    {{ route.info }}<br/>
+    {{ route.duration }}, {{ route.copied }} people copied
+  </v-card-row>
+</v-card>
 </template>
 <script>
 export default {
@@ -27,44 +24,13 @@ export default {
 }
 </script>
 <style scoped>
-.mdl-card {
+.card {
   background-position: center;
   background-size: cover;
   cursor: pointer;
 }
-.mdl-card__actions {
-  background: rgba(0, 0, 0, 0.5);
-}
-.mdl-card__actions.top {
-  height: 42px;
-}
-.mdl-card__actions.bottom {
-  height: 30px;
-}
-.mdl-card__title > span {
-  position: absolute;
-  top: 5px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.mdl-card__title > span.left {
-  left: 5px;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.mdl-card__title > span.right {
-  right: 5px;
-  font-size: 12px;
-  font-weight: 500;
-}
-.media-text {
-  color: #fff;
-}
-
-.media-text.small {
-  font-size: small;
-  font-style: italic;
+.trans-text {
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
 }
 </style>

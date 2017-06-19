@@ -2,9 +2,10 @@ export default {
   routes: [
     {
       'id': 0,
-      'title': 'tokyo',
+      'title': 'Tokyo route',
       'info': 'See interesting place in the heart of Tokyo. Tokyo tower, Disney land, ...',
       'traveller': 'pong',
+      'is_follow': false,
       'duration': '5 days',
       'cost_est': '50,000 THB',
       'copied': 10,

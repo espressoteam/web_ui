@@ -1,22 +1,45 @@
 <template>
-<div class="mdl-card">
-  <div class="mdl-card__supporting-text head">
-    <span></span>
-  </div>
-  <div class="mdl-card__media" 
-  :style="{backgroundImage:'url('+ visit.url +')'}">
-    <h4 class='media-text'>{{visit.seq}} {{visit.title}}</h4>
-  </div>
-  <div class="mdl-card__supporting-text">
-    <p><b>Visited duration:</b> {{visit.end - visit.start}} hour(s)</p>
-    <p>{{visit.info}}</p>
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Detail</a>
-    <a v-if="visit.commute === 'train'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><i class="material-icons">train</i></a>
-    <a v-if="visit.commute === 'bus'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><i class="material-icons">directions_bus</i></a>
-    <a v-if="visit.commute === 'car'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"><i class="material-icons">directions_car</i></a>
-  </div>
+<div>
+<v-card :img="visit.url">
+  <v-card-row class="tran1">
+    <v-card-title>
+      <span class="white--text">{{visit.seq}} {{visit.title}}</span>
+      <v-spacer></v-spacer>
+      <v-menu offset-x bottom left origin="top right" transition="v-scale-transition">
+        <v-btn icon="icon" slot="activator" class="white--text">
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-item>
+            <v-list-tile>
+              <v-list-tile-title>Remove Card</v-list-tile-title>
+            </v-list-tile>
+          </v-list-item>
+          <v-list-item>
+            <v-list-tile>
+              <v-list-tile-title>Send Feedback</v-list-tile-title>
+            </v-list-tile>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-card-title>
+  </v-card-row>
+  <v-card-text class="tran2">
+    <div class="v-text">
+      <p><b>Visited duration:</b> {{visit.end - visit.start}} hour(s)</p>
+      {{visit.info}}
+    </div>
+  </v-card-text>
+  <v-card-row actions class="tran1 mt-0">
+    <v-btn flat class="white--text">Detail</v-btn>
+    <v-spacer></v-spacer>
+    <v-btn icon>
+      <v-icon v-if="visit.commute === 'train'" class="white--text">train</v-icon>
+      <v-icon v-if="visit.commute === 'bus'" class="white--text">directions_bus</v-icon>
+      <v-icon v-if="visit.commute === 'car'" class="white--text">directions_car</v-icon>
+    </v-btn>
+  </v-card-row>
+</v-card>
 </div>
 </template>
 <script>
@@ -28,10 +51,12 @@ export default {
 }
 </script>
 <style scoped>
-.mdl-card__supporting-text.head {
-  padding: 5px;
+.tran1 {
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
 }
-.media-text {
+
+.tran2 {
   color: white;
   background: rgba(0, 0, 0, 0.5);
 }

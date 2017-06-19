@@ -1,11 +1,6 @@
 <template>
-<div class="mdl-card mdl-shadow--2dp">
-  <div class="mdl-card__supporting-text">
-    <p>{{ route.info }}</p>
-    <p>{{ route.comment }}</p>
-  </div>
-  <div class="mdl-card__media">
-    <gmap-map
+<v-card>
+<gmap-map
     :center="route.center"
     :zoom="8"
     style="width: 100%; height: 250px;">
@@ -18,8 +13,7 @@
       :label="'' + m.seq"
       @click="toggleInfoWindow(m,index)"></gmap-marker>
   </gmap-map>
-  </div>
-</div>
+</v-card>
 </template>
 <script>
 export default {

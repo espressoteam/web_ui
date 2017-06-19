@@ -28,6 +28,9 @@ Vue.use(Vuetify)
 import Mdl from 'material-design-lite'
 Vue.use(Mdl)
 
+import VueFire from 'vuefire'
+Vue.use(VueFire)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

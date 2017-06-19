@@ -1,29 +1,35 @@
 <template>
 <div>
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone">
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent filled">My routes</button>
-    </div>
-    <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone">
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent filled">Routes nearby</button>
-    </div>
-  </div>
-  <div class="mdl-grid">
-    <h4 class="head1">Recommended</h4>
-  </div>
-  <div class="mdl-grid">
-    <route-card 
-    class="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone"
-    v-for="route in this.recommendRoutes" :route="route" :key="route.id" @click="displayDetails(route.id)"></route-card>
-  </div>
-  <div class="mdl-grid">
-    <h4 class="head1">Popular</h4>
-  </div>
-  <div class="mdl-grid">
-    <route-card 
-    class="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone"
-    v-for="route in this.popularRoutes" :route="route" :key="route.id" @click="displayDetails(route.id)"></route-card>
-  </div>
+  <v-container fluid>
+    <v-layout row>
+      <v-flex xs6 class="mb-3">
+        <v-btn error block light>My routes</v-btn>
+      </v-flex>
+      <v-flex xs6 class="mb-3">
+        <v-btn error block light>Routes nearby</v-btn>
+      </v-flex>
+    </v-layout>
+    <v-layout row class="mb-2">
+      <v-flex xs7>
+        <h4 class="head1">Recommended</h4>
+      </v-flex>
+    </v-layout>
+    <v-layout row v-for="route in this.recommendRoutes" :key="route.id">
+      <v-flex xs12 class="mb-2">
+        <route-card :route="route" @click="displayDetails(route.id)"></route-card>
+      </v-flex>
+    </v-layout>
+    <v-layout row class="mb-2 mt-2">
+      <v-flex xs6>
+        <h4 class="head1">Popular</h4>
+      </v-flex>
+    </v-layout>
+    <v-layout row v-for="route in this.popularRoutes" :key="route.id">
+      <v-flex xs12 class="mb-2">
+        <route-card :route="route" @click="displayDetails(route.id)"></route-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </div>
 </template>
 <script>
