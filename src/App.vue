@@ -40,7 +40,7 @@
     </main>
     <v-snackbar
       :multi-line="true"
-      :timeout="60000"
+      :timeout="10000"
       :top="true"
       v-model="snackbar"
     >
