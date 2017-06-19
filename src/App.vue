@@ -39,11 +39,16 @@
       <router-view></router-view>
     </main>
     <v-snackbar
-      :timeout="3000"
+      :multi-line="true"
+      :timeout="60000"
       :top="true"
       v-model="snackbar"
     >
-      {{ message }}
+        <span>
+          <strong>{{ messageTitle }}</strong><br/>
+          {{messageBody}} <a href="">view</a>
+        </span>
+        <v-spacer></v-spacer>
       <v-btn flat class="pink--text" @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
   </v-app>
@@ -58,8 +63,9 @@ export default {
   data () {
     return {
       snackbar: false,
-      message: '',
-      drawer: true,
+      messageTitle: '',
+      messageBody: '',
+      drawer: null,
       items: [
         { title: 'Home', icon: 'dashboard', name: 'home' },
         { title: 'My routes', icon: 'question_answer', name: 'home' }
@@ -72,7 +78,8 @@ export default {
     console.log('Register on message event')
     messaging.onMessage((payload) => {
       console.log('Message received. ', payload)
-      this.message = payload.data.msg || 'got message'
+      this.messageTitle = payload.data.title || 'got message'
+      this.messageBody = payload.data.body || 'got message'
       this.snackbar = true
     })
   },

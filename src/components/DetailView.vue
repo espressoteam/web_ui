@@ -42,7 +42,7 @@
       </v-layout>
     </v-container>
     <v-snackbar class="cyan darken-4"
-      :timeout="60000"
+      :timeout="10000"
       :top="true"
       :secondary="true"
       :multi-line="true"
