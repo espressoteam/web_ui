@@ -41,6 +41,17 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <v-snackbar class="cyan darken-4"
+      :timeout="60000"
+      :top="true"
+      :secondary="true"
+      :multi-line="true"
+      v-model="snackbar"
+    >
+      <span><strong>We will notify you when <u>{{route.traveller}}</u> do something interesting!!</strong></span>
+      <v-btn light primary @click.native="snackbar = false; registerUser();">Allow</v-btn>
+      <v-btn light small flat @click.native="snackbar = false" class="caption"><small>Not interested</small></v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -54,7 +65,8 @@ export default {
     return {
       route: data.routes[this.$route.params.id],
       message: '',
-      token: ''
+      token: '',
+      snackbar: false
     }
   },
   methods: {
@@ -63,22 +75,7 @@ export default {
 
       if (this.route.is_follow && !this.token) {
         // try register
-        registerNotification()
-        .then((currentToken) => {
-          console.log('Token: ', currentToken)
-          if (currentToken) {
-            this.token = currentToken
-            saveToken(1, this.token)
-            // sendTokenToServer(currentToken);
-            // updateUIForPushEnabled(currentToken);
-          } else {
-            // Show permission request.
-            console.log('No Instance ID token available. Request permission to generate one.')
-            // Show permission UI.
-            // updateUIForPushPermissionRequired();
-            // setTokenSentToServer(false);
-          }
-        })
+        this.snackbar = true
       }
 
       if (!this.route.is_follow && this.token) {
@@ -90,6 +87,24 @@ export default {
           saveToken(1, this.token)
         })
       }
+    },
+    registerUser () {
+      registerNotification()
+      .then((currentToken) => {
+        console.log('Token: ', currentToken)
+        if (currentToken) {
+          this.token = currentToken
+          saveToken(1, this.token)
+          // sendTokenToServer(currentToken);
+          // updateUIForPushEnabled(currentToken);
+        } else {
+          // Show permission request.
+          console.log('No Instance ID token available. Request permission to generate one.')
+          // Show permission UI.
+          // updateUIForPushPermissionRequired();
+          // setTokenSentToServer(false);
+        }
+      })
     }
   }
 }
