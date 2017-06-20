@@ -91,6 +91,7 @@ export default {
 
 #layout {
   background: url('/static/img/background.jpg') center / cover;
+  height: 100%;
 }
 
 .head1 {
@@ -100,4 +101,3 @@ export default {
     margin: 0;
 }
 </style>
-

@@ -21,7 +21,17 @@ export default {
   data () {
     return {
       edit: false,
+      previousTitle: null,
       route: data.routes[this.$route.query.copy]
+    }
+  },
+  watch: {
+    edit () {
+      if (this.edit) {
+        this.previousTitle = this.route.title
+      } else if (this.previousTitle !== this.route.title) {
+        this.$http.put(`route/${this.route.id}`, this.route)
+      }
     }
   }
 }

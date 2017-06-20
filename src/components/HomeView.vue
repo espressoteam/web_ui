@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-layout row>
       <v-flex xs6 class="mb-3">
-        <v-btn error block light>My routes</v-btn>
+        <v-btn error block light v-on:click.native="displayMyRoutes">My routes</v-btn>
       </v-flex>
       <v-flex xs6 class="mb-3">
         <v-btn error block light>Routes nearby</v-btn>
@@ -39,6 +39,9 @@
     methods: {
       displayDetails (id) {
         this.$router.push({name: 'detail', params: { id: id }})
+      },
+      displayMyRoutes () {
+        this.$router.push({name: 'my-route'})
       }
     },
     data () {
