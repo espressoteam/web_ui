@@ -66,8 +66,17 @@ export default {
       route: data.routes[this.$route.params.id],
       message: '',
       token: '',
+      user: '',
       snackbar: false
     }
+  },
+  created () {
+    var user = localStorage.getItem('user')
+    if (!user) {
+      user = new Date().getTime()
+      localStorage.setItem('user', user)
+    }
+    this.user = user
   },
   methods: {
     toggleFollow () {
@@ -84,7 +93,7 @@ export default {
         .then(() => {
           console.log('Unregistered')
           this.token = ''
-          saveToken(1, this.token)
+          deleteToken(this.user)
         })
       }
     },
@@ -94,7 +103,7 @@ export default {
         console.log('Token: ', currentToken)
         if (currentToken) {
           this.token = currentToken
-          saveToken(1, this.token)
+          saveToken(this.user, this.token)
           // sendTokenToServer(currentToken);
           // updateUIForPushEnabled(currentToken);
         } else {
@@ -113,6 +122,16 @@ const saveToken = (id, token) => {
   firebase.database().ref('tokens/' + id).set({
     token: token
   })
+  .then(() => {
+    console.log('Synchronization succeeded')
+  })
+  .catch((error) => {
+    console.log('Synchronization failed', error)
+  })
+}
+
+const deleteToken = (id) => {
+  firebase.database().ref('tokens/' + id).remove()
   .then(() => {
     console.log('Synchronization succeeded')
   })
