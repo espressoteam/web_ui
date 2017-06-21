@@ -7,3 +7,5 @@ test/unit/coverage
 *.xcf
 /dist
 awsdeploy.sh
+.firebaserc
+firebase.json

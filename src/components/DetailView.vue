@@ -77,6 +77,9 @@ export default {
       localStorage.setItem('user', user)
     }
     this.user = user
+
+    var token = localStorage.getItem('token')
+    this.token = token
   },
   methods: {
     toggleFollow () {
@@ -119,6 +122,7 @@ export default {
 }
 
 const saveToken = (id, token) => {
+  localStorage.setItem('token', token)
   firebase.database().ref('tokens/' + id).set({
     token: token
   })
