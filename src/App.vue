@@ -68,7 +68,7 @@ export default {
       drawer: null,
       items: [
         { title: 'Home', icon: 'dashboard', name: 'home' },
-        { title: 'My routes', icon: 'question_answer', name: 'home' }
+        { title: 'My routes', icon: 'question_answer', name: 'my-route' }
       ],
       mini: false,
       right: null

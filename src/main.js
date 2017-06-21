@@ -6,8 +6,10 @@ import App from './App'
 import router from './router'
 import * as VueGoogleMaps from 'vue2-google-maps'
 
+import Config from './configs/appconfig'
+
 Vue.use(VueResource)
-Vue.http.options.root = '/api'
+Vue.http.options.root = Config.API_URL
 
 Vue.config.productionTip = false
 

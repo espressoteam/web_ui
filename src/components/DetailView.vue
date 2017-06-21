@@ -41,16 +41,16 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-snackbar class="cyan darken-4"
+    <v-snackbar class="deep-orange darken-1"
       :timeout="60000"
-      :top="true"
+      :bottom="true"
       :secondary="true"
       :multi-line="true"
       v-model="snackbar"
     >
-      <span><strong>We will notify you when <u>{{route.traveller}}</u> do something interesting!!</strong></span>
-      <v-btn light primary @click.native="snackbar = false; registerUser();">Allow</v-btn>
-      <v-btn light small flat @click.native="snackbar = false" class="caption"><small>Not interested</small></v-btn>
+      <span><strong>Follow <u>{{route.traveller}}</u>'s updates?</strong></span>
+      <v-btn light primary small @click.native="snackbar = false; registerUser();">Allow</v-btn>
+      <v-btn light icon flat @click.native="snackbar = false" class="caption pl-0 ml-0"><small>No</small></v-btn>
     </v-snackbar>
   </div>
 </template>
