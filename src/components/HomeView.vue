@@ -33,7 +33,7 @@
 </div>
 </template>
 <script>
-  import data from '../data'
+  import gql from 'graphql-tag'
 
   export default {
     methods: {
@@ -46,9 +46,27 @@
     },
     data () {
       return {
-        'recommendRoutes': data.routes.slice(0, 2),
-        'popularRoutes': data.routes.slice(3)
+        'recommendRoutes': [],
+        'popularRoutes': []
       }
+    },
+    apollo: {
+      recommendRoutes: gql`{recommendRoutes {
+        id
+        title
+        info
+        imageUrl
+        copied
+        duration
+      }}`,
+      popularRoutes: gql`{popularRoutes {
+        id
+        title
+        info
+        imageUrl
+        copied
+        duration
+      }}`
     }
   }
 </script>

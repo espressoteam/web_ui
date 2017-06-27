@@ -32,7 +32,7 @@
       </v-layout>
       <v-layout row>
         <v-flex xs12 class="mb-2">
-          <route-map-card :route="route"></route-map-card>
+          <route-map-card v-if="route.center" :route="route"></route-map-card>
         </v-flex>
       </v-layout>
       <v-layout row wrap>
@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-import data from '../data'
+import gql from 'graphql-tag'
 import firebase from '../services/firebase'
 
 const messaging = firebase.messaging()
@@ -63,7 +63,7 @@ const messaging = firebase.messaging()
 export default {
   data () {
     return {
-      route: data.routes[this.$route.params.id],
+      route: {},
       message: '',
       token: '',
       user: '',
@@ -117,6 +117,29 @@ export default {
           // setTokenSentToServer(false);
         }
       })
+    }
+  },
+  apollo: {
+    route: {
+      query: gql`query route($id: Int!) {
+        route(id: $id) {
+          id
+          title
+          info
+          imageUrl
+          traveller
+          center {lat lng}
+          visits {
+            id seq commute date start end title info url 
+            position {lat lng}
+          }
+        }
+      }`,
+      variables () {
+        return {
+          id: this.$route.params.id
+        }
+      }
     }
   }
 }

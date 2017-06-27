@@ -31,16 +31,32 @@ Vue.component('route-map-card', RouteMapCard)
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
-import Mdl from 'material-design-lite'
-Vue.use(Mdl)
-
 import VueFire from 'vuefire'
 Vue.use(VueFire)
+
+import { ApolloClient, createNetworkInterface } from 'apollo-client'
+import VueApollo from 'vue-apollo'
+// Create the apollo client
+const apolloClient = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:4000/graphql',
+    transportBatching: true
+  }),
+  connectToDevTools: true
+})
+
+// Install the vue plugin
+Vue.use(VueApollo)
+
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  apolloProvider,
   template: '<App/>',
   components: { App }
 })
