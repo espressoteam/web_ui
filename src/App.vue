@@ -107,4 +107,10 @@ export default {
     padding: 0;
     margin: 0;
 }
+
+.input input, .input textarea {
+  color: white !important;
+  font-size: larger !important;
+  background: rgba(0, 0, 0, 0.5);
+}
 </style>

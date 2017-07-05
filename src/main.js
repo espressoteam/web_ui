@@ -15,7 +15,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyCsFfYE1rLKHx9aTeauPnG7-gSFB3nT6PY'
+    key: 'AIzaSyBTZbg2LjHC59N1cmzGuGVSuyBtyIGRdx4',
+    libraries: 'places'
   }
 })
 
@@ -25,9 +26,13 @@ Vue.component('route-card', RouteCard)
 import VisitCard from './components/VisitCard'
 Vue.component('visit-card', VisitCard)
 
+import VisitEditor from './components/VisitEditor'
+Vue.component('visit-editor', VisitEditor)
+
 import RouteMapCard from './components/RouteMapCard'
 Vue.component('route-map-card', RouteMapCard)
 
+require('../node_modules/vuetify/dist/vuetify.min.css')
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 

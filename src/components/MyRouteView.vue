@@ -12,14 +12,18 @@
       </v-flex>
     </v-layout>
   </v-container>
+  <v-btn error light v-on:click.native="createNewRoute()" style="position: fixed; top:60px; right: 10px;">Create</v-btn>
 </div>
 </template>
 <script>
   import data from '../data'
   export default {
     methods: {
+      createNewRoute () {
+        this.$router.push({name: 'editor'})
+      },
       editRoute (id) {
-        this.$router.push({name: 'editor', query: { copy: id }})
+        this.$router.push({name: 'editor', query: { id: id }})
       }
     },
     data () {

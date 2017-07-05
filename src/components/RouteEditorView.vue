@@ -3,48 +3,58 @@
     <v-container fluid>
       <v-layout row>
         <v-flex xs8 class="mb-2">
-          <span v-if="!edit" class="head1 display-3">
-            {{route.title}}
-            <v-icon style="cursor:pointer" class="white--text ml-2" @click="edit=true">mode_edit</v-icon>
-          </span>
-          <div v-else style="display:flex;">
-            <input v-model="route.title" class="head1" size="10"/>
-            <v-icon style="cursor:pointer;" class="head1 white--text" @click="edit=false">save</v-icon>
+          <v-text-field
+              name="title"
+              label="Title"
+              v-model="route.title"
+              class="input"
+              autofocus
+            ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row>
+        <v-flex xs8 class="mb-2">
+          <v-text-field
+              name="info"
+              label="Info"
+              multi-line
+              rows="2"
+              v-model="route.info"
+              class="input"
+            ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row>
+        <v-flex xs8 class="mb-2">
+          <div class="input-group input-group--dirty input-group--dark input-group--text-field input-group--multi-line">
+            <label>Search for a place</label>
+            <div class="input-group__input input">
+              <gmap-autocomplete 
+              :value="description" 
+              @place_changed="setPlace">
+              </gmap-autocomplete>
+            </div>
           </div>
         </v-flex>
-      </v-layout>
-      <v-layout row>
-        <v-flex xs12 class="mb-2">
-          <v-card horizontal>
-            <v-card-row :img="route.imageUrl" height="150px"></v-card-row>
-            <v-card-column>
-              <v-card-row class="pink white--text">
-                <v-card-text v-if="!dedit">
-                  {{route.info}} 
-                  <v-icon style="cursor:pointer;" class="white--text" @click="dedit=true">mode_edit</v-icon>
-                </v-card-text>
-                <v-text-field v-else
-                  multi-line
-                  v-model="route.info"
-                  :append-icon="'save'"
-                  :append-icon-cb="() => dedit = false"
-                ></v-text-field>
+        <v-flex xs2 class="mb-2">
+          <v-dialog v-model="place_dialog" persistent>
+            <v-card class="pa-3">
+              <v-card-title>
+                <div class="headline">{{selecting_place.title}}</div>
+              </v-card-title>
+              <visit-editor :visit="selecting_place"></visit-editor>
+              <v-card-row actions>
+                <v-spacer></v-spacer>
+                <v-btn class="green--text darken-1" flat="flat" @click.native="addVisit()">Add</v-btn>
+                <v-btn class="green--text darken-1" flat="flat" @click.native="cancel()">Cancel</v-btn>
               </v-card-row>
-              <v-card-row actions class="pink darken-2">
-                <v-btn flat class="white--text" 
-                  :loading="loading"
-                  :disabled="loading"
-                  @click.native="loading = true; saveMyRoute();">
-                  <v-icon left light>save</v-icon>Save
-                </v-btn>
-              </v-card-row>
-            </v-card-column>
-          </v-card>
+            </v-card>
+          </v-dialog>
         </v-flex>
       </v-layout>
       <v-layout row>
         <v-flex xs12 class="mb-2">
-          <route-map-card :route="route"></route-map-card>
+          <route-map-card v-if="route.center" :route="route"></route-map-card>
         </v-flex>
       </v-layout>
       <v-layout row wrap>
@@ -64,6 +74,7 @@
       {{message}}
       <v-btn light small flat @click.native="snackbar = false">Close</v-btn>
     </v-snackbar>
+    <v-btn error light v-on:click.native="saveMyRoute()" style="position: fixed; top:60px; right: 10px;">Save</v-btn>
   </div>
 </template>
 <script>
@@ -71,17 +82,59 @@ import data from '../data'
 export default {
   data () {
     return {
+      place_dialog: false,
+      description: 'test',
+      selecting_place: {},
+      previewImg: '',
       edit: false,
       dedit: false,
       error: false,
       message: '',
       snackbar: false,
       loading: false,
-      route: data.routes[this.$route.query.copy]
+      route: {}
+    }
+  },
+  created () {
+    if (this.$route.query.length) {
+      let id = this.$route.query.id || this.$route.query.copy || 0
+      this.route = data.routes[id]
     }
   },
   methods: {
+    addVisit () {
+      this.route.visits = this.route.visits || []
+      let id = this.route.visits.length
+      let seq = id + 1
+      this.selecting_place.id = id
+      this.selecting_place.seq = seq
+      this.route.center = this.route.center || this.selecting_place.position
+      console.log('Adding visit: ', this.selecting_place)
+      this.route.visits = this.route.visits.concat(this.selecting_place)
+      this.route = Object.assign({}, this.route)
+      this.selecting_place = {}
+      this.description = ''
+      this.place_dialog = false
+    },
+    cancel () {
+      this.selecting_place = {}
+      this.description = ''
+      this.place_dialog = false
+    },
+    setPlace (place) {
+      console.log('select place: ', place)
+      // let photo = place.photos[0]
+      // this.previewImg = photo.getUrl({'maxWidth': photo.width, 'maxHeight': photo.height})
+      // console.log('previewImg: ', this.previewImg)
+      let selectingPlace = {
+        title: place.name,
+        position: {lat: place.geometry.location.lat(), lng: place.geometry.location.lng()}
+      }
+      this.selecting_place = selectingPlace
+      this.place_dialog = true
+    },
     saveMyRoute () {
+      this.loading = true
       this.$http.put(`route/${this.route.id}`, this.route)
       .then(response => {
         console.log('response: ', response)
