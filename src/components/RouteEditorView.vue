@@ -83,7 +83,7 @@ export default {
   data () {
     return {
       place_dialog: false,
-      description: 'test',
+      description: ' ',
       selecting_place: {},
       previewImg: '',
       edit: false,
@@ -96,8 +96,16 @@ export default {
     }
   },
   created () {
-    if (this.$route.query.length) {
-      let id = this.$route.query.id || this.$route.query.copy || 0
+    let id
+
+    if (this.$route.query.id !== undefined) {
+      id = this.$route.query.id
+    } else if (this.$route.query.copy !== undefined) {
+      id = this.$route.query.copy
+    }
+
+    if (id !== undefined) {
+      console.log('open route id: ', id)
       this.route = data.routes[id]
     }
   },
